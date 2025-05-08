@@ -1,6 +1,6 @@
 ## Zudoku App
 
-This is a Zuplo app that was created with [`create-zudoku-app`](https://zudoku.dev/docs).
+This is a Zuplo app that was created with [`create-zudoku-app`](https://zudoku.dev/docs). Website: https://thangnguyen5878.github.io/bookstore_api_docs/docs/introduction
 
 ## Getting Started
 
