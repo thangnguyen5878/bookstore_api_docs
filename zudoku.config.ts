@@ -8,13 +8,13 @@ const config: ZudokuConfig = {
   sidebar: {
     docs: [
       {
-        type: "category",
-        label: "Overview",
-        items: ["docs/introduction", "docs/example"],
-      },
+        "type": "doc",
+        "label": "Introduction",
+        "id": "docs/introduction"
+      }
     ],
   },
-  redirects: [{ from: "/", to: "/docs/introduction" }],
+  redirects: [{ from: "/", to: "docs/introduction" }],
   apis: {
     type: "file",
     input: "./apis/openapi.yaml",

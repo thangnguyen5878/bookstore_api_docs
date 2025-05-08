@@ -59,10 +59,58 @@ components:
         author:
           type: string
           description: ID of the book's author
+  examples:
+    Author:
+      value:
+        name: "J.K. Rowling"
+        year: 1965
+        books: ["60d21b4967d0d8992e610c85", "60d21b4967d0d8992e610c86"]
+    AuthorResponse:
+      value:
+        _id: "60d21b4967d0d8992e610c83"
+        name: "J.K. Rowling"
+        year: 1965
+        books: ["60d21b4967d0d8992e610c85", "60d21b4967d0d8992e610c86"]
+    AuthorsList:
+      value:
+        - _id: "60d21b4967d0d8992e610c83"
+          name: "J.K. Rowling"
+          year: 1965
+          books: ["60d21b4967d0d8992e610c85", "60d21b4967d0d8992e610c86"]
+        - _id: "60d21b4967d0d8992e610c84"
+          name: "George Orwell"
+          year: 1903
+          books: ["60d21b4967d0d8992e610c87"]
+    Book:
+      value:
+        name: "Harry Potter and the Philosopher's Stone"
+        publishedDate: "1997-06-26"
+        genres: ["Fantasy", "Young Adult"]
+        author: "60d21b4967d0d8992e610c83"
+    BookResponse:
+      value:
+        _id: "60d21b4967d0d8992e610c85"
+        name: "Harry Potter and the Philosopher's Stone"
+        publishedDate: "1997-06-26"
+        genres: ["Fantasy", "Young Adult"]
+        author: "60d21b4967d0d8992e610c83"
+    BooksList:
+      value:
+        - _id: "60d21b4967d0d8992e610c85"
+          name: "Harry Potter and the Philosopher's Stone"
+          publishedDate: "1997-06-26"
+          genres: ["Fantasy", "Young Adult"]
+          author: "60d21b4967d0d8992e610c83"
+        - _id: "60d21b4967d0d8992e610c86"
+          name: "Harry Potter and the Chamber of Secrets"
+          publishedDate: "1998-07-02"
+          genres: ["Fantasy", "Young Adult"]
+          author: "60d21b4967d0d8992e610c83"
 paths:
   /author:
     post:
       summary: Create an author
+      description: Create a new author
       tags: [Authors]
       requestBody:
         required: true
@@ -70,6 +118,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Author'
+            examples:
+              authorExample:
+                $ref: '#/components/examples/Author'
       responses:
         200:
           description: The created author
@@ -77,10 +128,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+              examples:
+                authorResponseExample:
+                  $ref: '#/components/examples/AuthorResponse'
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     get:
       summary: List authors
+      description: List all authors
       tags: [Authors]
       responses:
         200:
@@ -91,11 +150,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+              examples:
+                authorsListExample:
+                  $ref: '#/components/examples/AuthorsList'
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
   /author/{id}:
     get:
       summary: Get an author
+      description: Returns the details for an author
       tags: [Authors]
       parameters:
         - in: path
@@ -104,6 +171,7 @@ paths:
             type: string
           required: true
           description: The author id
+          example: "60d21b4967d0d8992e610c83"
       responses:
         200:
           description: The author data by id
@@ -111,10 +179,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+              examples:
+                authorResponseExample:
+                  $ref: '#/components/examples/AuthorResponse'
+        404:
+          description: Author not found
+          content:
+            application/json:
+              example:
+                message: "Author not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     put:
       summary: Update an author
+      description: Update the details for an author
       tags: [Authors]
       parameters:
         - in: path
@@ -123,19 +205,46 @@ paths:
             type: string
           required: true
           description: The author id
+          example: "60d21b4967d0d8992e610c83"
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Author'
+            examples:
+              authorExample:
+                value:
+                  name: "J.K. Rowling"
+                  year: 1965
+                  books: ["60d21b4967d0d8992e610c85", "60d21b4967d0d8992e610c86", "60d21b4967d0d8992e610c88"]
       responses:
         200:
           description: Updated successfully
+          content:
+            application/json:
+              example:
+                message: "Author updated successfully"
+                author:
+                  _id: "60d21b4967d0d8992e610c83"
+                  name: "J.K. Rowling"
+                  year: 1965
+                  books: ["60d21b4967d0d8992e610c85", "60d21b4967d0d8992e610c86", "60d21b4967d0d8992e610c88"]
+        404:
+          description: Author not found
+          content:
+            application/json:
+              example:
+                message: "Author not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     delete:
       summary: Delete an author
+      description: Delete an author and any related resources 
       tags: [Authors]
       parameters:
         - in: path
@@ -144,14 +253,30 @@ paths:
             type: string
           required: true
           description: The author id
+          example: "60d21b4967d0d8992e610c83"
       responses:
         200:
           description: Deleted successfully
+          content:
+            application/json:
+              example:
+                message: "Author deleted successfully"
+        404:
+          description: Author not found
+          content:
+            application/json:
+              example:
+                message: "Author not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
   /book:
     post:
       summary: Create a book
+      description: Create a new book
       tags: [Books]
       requestBody:
         required: true
@@ -159,6 +284,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Book'
+            examples:
+              bookExample:
+                $ref: '#/components/examples/Book'
       responses:
         200:
           description: The created book
@@ -166,10 +294,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+              examples:
+                bookResponseExample:
+                  $ref: '#/components/examples/BookResponse'
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     get:
       summary: List books
+      description: List all books
       tags: [Books]
       responses:
         200:
@@ -180,11 +316,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+              examples:
+                booksListExample:
+                  $ref: '#/components/examples/BooksList'
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
   /book/{id}:
     get:
       summary: Get a books
+      description: Returns the details for a book
       tags: [Books]
       parameters:
         - in: path
@@ -193,6 +337,7 @@ paths:
             type: string
           required: true
           description: The book id
+          example: "60d21b4967d0d8992e610c85"
       responses:
         200:
           description: The book data by id
@@ -200,10 +345,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+              examples:
+                bookResponseExample:
+                  $ref: '#/components/examples/BookResponse'
+        404:
+          description: Book not found
+          content:
+            application/json:
+              example:
+                message: "Book not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     put:
       summary: Update a book
+      description: Update the details for a book
       tags: [Books]
       parameters:
         - in: path
@@ -212,19 +371,48 @@ paths:
             type: string
           required: true
           description: The book id
+          example: "60d21b4967d0d8992e610c85"
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Book'
+            examples:
+              bookExample:
+                value:
+                  name: "Harry Potter and the Philosopher's Stone"
+                  publishedDate: "1997-06-26"
+                  genres: ["Fantasy", "Young Adult", "Adventure"]
+                  author: "60d21b4967d0d8992e610c83"
       responses:
         200:
           description: Updated successfully
+          content:
+            application/json:
+              example:
+                message: "Book updated successfully"
+                book:
+                  _id: "60d21b4967d0d8992e610c85"
+                  name: "Harry Potter and the Philosopher's Stone"
+                  publishedDate: "1997-06-26"
+                  genres: ["Fantasy", "Young Adult", "Adventure"]
+                  author: "60d21b4967d0d8992e610c83"
+        404:
+          description: Book not found
+          content:
+            application/json:
+              example:
+                message: "Book not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
     delete:
       summary: Delete a book
+      description: Delete a book and any related resources
       tags: [Books]
       parameters:
         - in: path
@@ -233,8 +421,23 @@ paths:
             type: string
           required: true
           description: The book id
+          example: "60d21b4967d0d8992e610c85"
       responses:
         200:
           description: Deleted successfully
+          content:
+            application/json:
+              example:
+                message: "Book deleted successfully"
+        404:
+          description: Book not found
+          content:
+            application/json:
+              example:
+                message: "Book not found"
         500:
           description: Server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
