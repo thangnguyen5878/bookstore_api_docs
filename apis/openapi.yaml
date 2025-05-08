@@ -12,9 +12,9 @@ servers:
     description: Development server
 tags:
   - name: Authors
-    description: Operations about authors
+    description: List of endpoints available to perform CRUD operations on authors
   - name: Books
-    description: Operations about books
+    description: List of endpoints available to perform CRUD operations on books
 components:
   schemas:
     Author:
@@ -62,7 +62,7 @@ components:
 paths:
   /author:
     post:
-      summary: Create a new author
+      summary: Create an author
       tags: [Authors]
       requestBody:
         required: true
@@ -80,7 +80,7 @@ paths:
         500:
           description: Server error
     get:
-      summary: Returns the list of all authors
+      summary: List authors
       tags: [Authors]
       responses:
         200:
@@ -95,7 +95,7 @@ paths:
           description: Server error
   /author/{id}:
     get:
-      summary: Get an author by id
+      summary: Get an author
       tags: [Authors]
       parameters:
         - in: path
@@ -151,7 +151,7 @@ paths:
           description: Server error
   /book:
     post:
-      summary: Create a new book
+      summary: Create a book
       tags: [Books]
       requestBody:
         required: true
@@ -169,7 +169,7 @@ paths:
         500:
           description: Server error
     get:
-      summary: Returns the list of all books
+      summary: List books
       tags: [Books]
       responses:
         200:
@@ -184,7 +184,7 @@ paths:
           description: Server error
   /book/{id}:
     get:
-      summary: Get a book by id
+      summary: Get a books
       tags: [Books]
       parameters:
         - in: path
